@@ -1,0 +1,6 @@
+.idea
+.idea/*
+target
+target/*
+/fees-register-app-database-acceptance-tests.iml
+
