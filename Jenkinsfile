@@ -3,7 +3,7 @@
 def rtMaven = Artifactory.newMavenBuild()
 
 properties([
-        [$class: 'GithubProjectProperty', displayName: 'BAR API Acceptance Tests', projectUrlStr: 'https://git.reform.hmcts.net/bar/bar-api-acceptance-tests'],
+        [$class: 'GithubProjectProperty', displayName: 'BAR API Acceptance Tests', projectUrlStr: 'https://git.reform.hmcts.net/bar/bar-app-acceptance-tests'],
         parameters([
                 string(defaultValue: 'latest', description: 'bar-api Docker Version', name: 'barApiDockerVersion'),
                 string(defaultValue: 'latest', description: 'bar-database Docker Version', name: 'barDatabaseDockerVersion')

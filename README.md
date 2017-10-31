@@ -1,1 +1,1 @@
-# fees-register-app-database-acceptance-tests
+# bar-app-database-acceptance-tests
