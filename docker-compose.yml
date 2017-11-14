@@ -2,11 +2,11 @@ version: '2.1'
 
 services:
   wait-for-startup:
-    command: /bin/echo Fees Register Started
+    command: /bin/echo bar Started
     image: alpine
     depends_on:
-      bar-api:
-        condition: service_healthy
+          bar-api:
+            condition: service_healthy
 
   bar-api:
     image: docker.artifactory.reform.hmcts.net/bar/bar-api:${BAR_API_DOCKER_VERSION:-latest}
