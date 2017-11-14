@@ -50,13 +50,23 @@ public class BARTestDsl {
                 return RestAssured.given().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
             }
 
-            public BARWhenDsl createPayment(PaymentUpdateDto.PaymentUpdateDtoBuilder requestDto) {
-                response = newRequest().body(requestDto.build()).post("/payments");
+           public BARWhenDsl cashCreatePayment(CashPaymentInstructionDto.CashPaymentInstructionDtoBuilder requestDto) {
+                response = newRequest().body(requestDto.build()).post("/cash");
                 return this;
             }
 
-            public BARWhenDsl getPayments(SearchDto.SearchDtoBuilder requestDto) {
-                response = newRequest().body(requestDto.userId("user01").fromDate(LocalDateTime.parse("2017-10-31T00:00:00")).toDate(LocalDateTime.now()).build()).get("/payments");
+            public BARWhenDsl chequeCreatePayment(ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder requestDto) {
+                response = newRequest().body(requestDto.build()).post("/cheques");
+                return this;
+            }
+
+            public BARWhenDsl postalOrdersCreatePayment(PostalOrderPaymentInstructionDto.PostalOrderPaymentInstructionDtoBuilder requestDto) {
+                response = newRequest().body(requestDto.build()).post("/postal-orders");
+                return this;
+            }
+
+            public BARWhenDsl allPayCreatePayment(AllPayPaymentInstructionDto.AllPayPaymentInstructionDtoBuilder requestDto) {
+                response = newRequest().body(requestDto.build()).post("/allpay");
                 return this;
             }
 
@@ -67,11 +77,6 @@ public class BARTestDsl {
 
             public BARWhenDsl getPaymentTypes() {
                 response = newRequest().get("/payment-types");
-                return this;
-            }
-
-            public BARWhenDsl getServiceTypes() {
-                response = newRequest().get("/services");
                 return this;
             }
 
@@ -86,11 +91,35 @@ public class BARTestDsl {
                 return this;
             }
 
-            public BARThenDsl created(Consumer<PaymentDto> barAssertions) {
-                PaymentDto paymentDto = response.then().statusCode(200).extract().as(PaymentDto.class);
-                barAssertions.accept(paymentDto);
+            public BARThenDsl BadRequest() {
+                response.then().statusCode(400);
                 return this;
             }
+
+            public BARThenDsl cashCreated(Consumer<CashPaymentInstructionDto> barAssertions) {
+                CashPaymentInstructionDto cashPaymentDto = response.then().statusCode(200).extract().as(CashPaymentInstructionDto.class);
+                barAssertions.accept(cashPaymentDto);
+                return this;
+            }
+
+            public BARThenDsl chequeCreated(Consumer<ChequePaymentInstructionDto> barAssertions) {
+                ChequePaymentInstructionDto chequePaymentDto = response.then().statusCode(200).extract().as(ChequePaymentInstructionDto.class);
+                barAssertions.accept(chequePaymentDto);
+                return this;
+            }
+
+            public BARThenDsl postalOrdersCreated(Consumer<PostalOrderPaymentInstructionDto> barAssertions) {
+                PostalOrderPaymentInstructionDto postalOrdersPaymentDto = response.then().statusCode(200).extract().as(PostalOrderPaymentInstructionDto.class);
+                barAssertions.accept(postalOrdersPaymentDto);
+                return this;
+            }
+
+            public BARThenDsl allPayCreated(Consumer<AllPayPaymentInstructionDto> barAssertions) {
+                AllPayPaymentInstructionDto AllPayPaymentInstructionDto = response.then().statusCode(200).extract().as(AllPayPaymentInstructionDto.class);
+                barAssertions.accept(AllPayPaymentInstructionDto);
+                return this;
+            }
+
             public <T> BARThenDsl got(Class<T> type, Consumer<T> assertions) {
                 T dto = response.then().statusCode(200).extract().as(type);
                 assertions.accept(dto);
