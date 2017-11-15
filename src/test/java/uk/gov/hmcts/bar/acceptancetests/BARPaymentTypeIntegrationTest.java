@@ -39,6 +39,18 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
         );
     }
 
+    private CashPaymentInstructionDto.CashPaymentInstructionDtoBuilder cashPaymentToCreate400 = cashPaymentInstructionDtoWith()
+            .payerName("Krishna")
+            .currency("USD")
+            .amount(100);
+
+    @Test
+    public void cashCreatePayments400() throws IOException {
+        scenario.given()
+                .when().cashCreatePayment(cashPaymentToCreate400)
+                .then().BadRequest();
+    }
+
     private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate = chequePaymentInstructionDtoWith()
             .payerName("Viswanadh")
             .amount(200)
@@ -58,7 +70,7 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
         );
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate500 = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate400 = chequePaymentInstructionDtoWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
@@ -70,11 +82,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
     @Test
     public void ChequeCreatePayments500() throws IOException {
         scenario.given()
-                .when().chequeCreatePayment(chequesPaymentToCreate500)
+                .when().chequeCreatePayment(chequesPaymentToCreate400)
                 .then().BadRequest();
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate500AN = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate400AN = chequePaymentInstructionDtoWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
@@ -86,11 +98,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
     @Test
     public void ChequeCreatePayments500AN() throws IOException {
         scenario.given()
-                .when().chequeCreatePayment(chequesPaymentToCreate500AN)
+                .when().chequeCreatePayment(chequesPaymentToCreate400AN)
                 .then().BadRequest();
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate500IN = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate400IN = chequePaymentInstructionDtoWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
@@ -102,7 +114,7 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
     @Test
     public void ChequeCreatePayments500IN() throws IOException {
         scenario.given()
-                .when().chequeCreatePayment(chequesPaymentToCreate500IN)
+                .when().chequeCreatePayment(chequesPaymentToCreate400IN)
                 .then().BadRequest();
     }
 
@@ -122,7 +134,7 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
         );
     }
 
-    private PostalOrderPaymentInstructionDto.PostalOrderPaymentInstructionDtoBuilder postalOrderPaymentToCreate500 = postalOrderPaymentInstructionDtoWith()
+    private PostalOrderPaymentInstructionDto.PostalOrderPaymentInstructionDtoBuilder postalOrderPaymentToCreate400 = postalOrderPaymentInstructionDtoWith()
             .payerName("Anish")
             .amount(200)
             .currency("GBP")
@@ -131,7 +143,7 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
     @Test
     public void PostalOrderCreatePayments500() throws IOException {
         scenario.given()
-                .when().postalOrdersCreatePayment(postalOrderPaymentToCreate500)
+                .when().postalOrdersCreatePayment(postalOrderPaymentToCreate400)
                 .then().BadRequest();
     }
 
