@@ -97,25 +97,25 @@ public class BARTestDsl {
             }
 
             public BARThenDsl cashCreated(Consumer<CashPaymentInstructionDto> barAssertions) {
-                CashPaymentInstructionDto cashPaymentDto = response.then().statusCode(200).extract().as(CashPaymentInstructionDto.class);
+                CashPaymentInstructionDto cashPaymentDto = response.then().statusCode(201).extract().as(CashPaymentInstructionDto.class);
                 barAssertions.accept(cashPaymentDto);
                 return this;
             }
 
             public BARThenDsl chequeCreated(Consumer<ChequePaymentInstructionDto> barAssertions) {
-                ChequePaymentInstructionDto chequePaymentDto = response.then().statusCode(200).extract().as(ChequePaymentInstructionDto.class);
+                ChequePaymentInstructionDto chequePaymentDto = response.then().statusCode(201).extract().as(ChequePaymentInstructionDto.class);
                 barAssertions.accept(chequePaymentDto);
                 return this;
             }
 
             public BARThenDsl postalOrdersCreated(Consumer<PostalOrderPaymentInstructionDto> barAssertions) {
-                PostalOrderPaymentInstructionDto postalOrdersPaymentDto = response.then().statusCode(200).extract().as(PostalOrderPaymentInstructionDto.class);
+                PostalOrderPaymentInstructionDto postalOrdersPaymentDto = response.then().statusCode(201).extract().as(PostalOrderPaymentInstructionDto.class);
                 barAssertions.accept(postalOrdersPaymentDto);
                 return this;
             }
 
             public BARThenDsl allPayCreated(Consumer<AllPayPaymentInstructionDto> barAssertions) {
-                AllPayPaymentInstructionDto AllPayPaymentInstructionDto = response.then().statusCode(200).extract().as(AllPayPaymentInstructionDto.class);
+                AllPayPaymentInstructionDto AllPayPaymentInstructionDto = response.then().statusCode(201).extract().as(AllPayPaymentInstructionDto.class);
                 barAssertions.accept(AllPayPaymentInstructionDto);
                 return this;
             }
