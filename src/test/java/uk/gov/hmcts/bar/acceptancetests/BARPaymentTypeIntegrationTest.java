@@ -1,45 +1,44 @@
 package uk.gov.hmcts.bar.acceptancetests;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.bar.acceptancetests.dsl.BARTestDsl;
-import uk.gov.hmcts.bar.api.contract.AllPayPaymentInstructionDto;
-import uk.gov.hmcts.bar.api.contract.CashPaymentInstructionDto;
-import uk.gov.hmcts.bar.api.contract.ChequePaymentInstructionDto;
-import uk.gov.hmcts.bar.api.contract.PostalOrderPaymentInstructionDto;
+import uk.gov.hmcts.bar.api.data.model.AllPayPaymentInstruction;
+import uk.gov.hmcts.bar.api.data.model.CashPaymentInstruction;
+import uk.gov.hmcts.bar.api.data.model.ChequePaymentInstruction;
+import uk.gov.hmcts.bar.api.data.model.PostalOrderPaymentInstruction;
+
+import static uk.gov.hmcts.bar.api.data.model.AllPayPaymentInstruction.allPayPaymentInstructionWith;
+import static uk.gov.hmcts.bar.api.data.model.PostalOrderPaymentInstruction.postalOrderPaymentInstructionWith;
+
+
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static uk.gov.hmcts.bar.api.contract.AllPayPaymentInstructionDto.allPayPaymentInstructionDtoWith;
-import static uk.gov.hmcts.bar.api.contract.CashPaymentInstructionDto.cashPaymentInstructionDtoWith;
-import static uk.gov.hmcts.bar.api.contract.ChequePaymentInstructionDto.chequePaymentInstructionDtoWith;
-import static uk.gov.hmcts.bar.api.contract.PostalOrderPaymentInstructionDto.postalOrderPaymentInstructionDtoWith;
-
-public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
+import static uk.gov.hmcts.bar.api.data.model.CashPaymentInstruction.cashPaymentInstructionWith;
+import static uk.gov.hmcts.bar.api.data.model.ChequePaymentInstruction.chequePaymentInstructionWith;
+public class BARPaymentTypeIntegrationTest extends IntegrationTestBase {
 
     @Autowired
     private BARTestDsl scenario;
 
-    private CashPaymentInstructionDto.CashPaymentInstructionDtoBuilder cashPaymentToCreate = cashPaymentInstructionDtoWith()
+    private CashPaymentInstruction.CashPaymentInstructionBuilder cashPaymentToCreate = cashPaymentInstructionWith()
             .payerName("Krishna")
             .currency("GBP")
             .amount(100);
 
-   @Test
+    @Test
     public void cashCreatePayments201() throws IOException {
         scenario.given()
                 .when().cashCreatePayment(cashPaymentToCreate)
-                .then().cashCreated((paymentDto -> {
-                    assertThat(paymentDto.getPayerName()).isEqualTo("Krishna");
+                .then().cashCreated((paymentInstruction -> {
+                    assertThat(paymentInstruction.getPayerName()).isEqualTo("Krishna");
                 })
         );
     }
 
-    private CashPaymentInstructionDto.CashPaymentInstructionDtoBuilder cashPaymentToCreate400 = cashPaymentInstructionDtoWith()
+    private CashPaymentInstruction.CashPaymentInstructionBuilder cashPaymentToCreate400 = cashPaymentInstructionWith()
             .payerName("Krishna")
             .currency("USD")
             .amount(100);
@@ -51,13 +50,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
                 .then().BadRequest();
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstruction.ChequePaymentInstructionBuilder chequesPaymentToCreate = chequePaymentInstructionWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
-            .sortCode("000000")
-            .accountNumber("00000000")
-            .instrumentNumber("000000");
+            .chequeNumber("000000");
 
 
     @Test
@@ -70,13 +67,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
         );
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate400 = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstruction.ChequePaymentInstructionBuilder chequesPaymentToCreate400 = chequePaymentInstructionWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
-            .sortCode("0000001")
-            .accountNumber("00000000")
-            .instrumentNumber("000000");
+            .chequeNumber("000000");
 
 
     @Test
@@ -86,13 +81,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
                 .then().BadRequest();
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate400AN = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstruction.ChequePaymentInstructionBuilder chequesPaymentToCreate400AN = chequePaymentInstructionWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
-            .sortCode("000000")
-            .accountNumber("000000001")
-            .instrumentNumber("000000");
+            .chequeNumber("000000");
 
 
     @Test
@@ -102,13 +95,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
                 .then().BadRequest();
     }
 
-    private ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder chequesPaymentToCreate400IN = chequePaymentInstructionDtoWith()
+    private ChequePaymentInstruction.ChequePaymentInstructionBuilder chequesPaymentToCreate400IN = chequePaymentInstructionWith()
             .payerName("Viswanadh")
             .amount(200)
             .currency("GBP")
-            .sortCode("000000")
-            .accountNumber("00000000")
-            .instrumentNumber("0000001");
+            .chequeNumber("0000001");
 
 
     @Test
@@ -118,11 +109,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
                 .then().BadRequest();
     }
 
-    private PostalOrderPaymentInstructionDto.PostalOrderPaymentInstructionDtoBuilder postalOrderPaymentToCreate = postalOrderPaymentInstructionDtoWith()
+    private PostalOrderPaymentInstruction.PostalOrderPaymentInstructionBuilder postalOrderPaymentToCreate = postalOrderPaymentInstructionWith()
             .payerName("Anish")
             .amount(200)
             .currency("GBP")
-            .instrumentNumber("000000");
+            .postalOrderNumber("000000");
 
     @Test
     public void PostalOrderCreatePayments201() throws IOException {
@@ -134,11 +125,11 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
         );
     }
 
-    private PostalOrderPaymentInstructionDto.PostalOrderPaymentInstructionDtoBuilder postalOrderPaymentToCreate400 = postalOrderPaymentInstructionDtoWith()
+    private PostalOrderPaymentInstruction.PostalOrderPaymentInstructionBuilder postalOrderPaymentToCreate400 = postalOrderPaymentInstructionWith()
             .payerName("Anish")
             .amount(200)
             .currency("GBP")
-            .instrumentNumber("0000001");
+            .postalOrderNumber("0000001");
 
     @Test
     public void PostalOrderCreatePayments500() throws IOException {
@@ -147,7 +138,7 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
                 .then().BadRequest();
     }
 
-    private AllPayPaymentInstructionDto.AllPayPaymentInstructionDtoBuilder allPayPaymentToCreate = allPayPaymentInstructionDtoWith()
+    private AllPayPaymentInstruction.AllPayPaymentInstructionBuilder allPayPaymentToCreate = allPayPaymentInstructionWith()
             .payerName("Krishna Viswanadh")
             .amount(2000)
             .currency("GBP")
@@ -163,7 +154,7 @@ public class BARPaymentTypeIntegrationTest extends IntegrationTestBase{
         );
     }
 
-    private AllPayPaymentInstructionDto.AllPayPaymentInstructionDtoBuilder allPayPaymentToCreate400 = allPayPaymentInstructionDtoWith()
+    private AllPayPaymentInstruction.AllPayPaymentInstructionBuilder allPayPaymentToCreate400 = allPayPaymentInstructionWith()
             .payerName("Krishna Viswanadh")
             .amount(2000)
             .currency("GBP")

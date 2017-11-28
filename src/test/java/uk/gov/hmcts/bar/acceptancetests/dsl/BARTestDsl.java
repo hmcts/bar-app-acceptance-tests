@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.bar.api.contract.*;
+import uk.gov.hmcts.bar.api.data.model.AllPayPaymentInstruction;
+import uk.gov.hmcts.bar.api.data.model.CashPaymentInstruction;
+import uk.gov.hmcts.bar.api.data.model.ChequePaymentInstruction;
+import uk.gov.hmcts.bar.api.data.model.PostalOrderPaymentInstruction;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -50,22 +52,22 @@ public class BARTestDsl {
                 return RestAssured.given().baseUri(baseUri).contentType(ContentType.JSON).headers(headers);
             }
 
-           public BARWhenDsl cashCreatePayment(CashPaymentInstructionDto.CashPaymentInstructionDtoBuilder requestDto) {
+           public BARWhenDsl cashCreatePayment(CashPaymentInstruction.CashPaymentInstructionBuilder requestDto) {
                 response = newRequest().body(requestDto.build()).post("/cash");
                 return this;
             }
 
-            public BARWhenDsl chequeCreatePayment(ChequePaymentInstructionDto.ChequePaymentInstructionDtoBuilder requestDto) {
+            public BARWhenDsl chequeCreatePayment(ChequePaymentInstruction.ChequePaymentInstructionBuilder requestDto) {
                 response = newRequest().body(requestDto.build()).post("/cheques");
                 return this;
             }
 
-            public BARWhenDsl postalOrdersCreatePayment(PostalOrderPaymentInstructionDto.PostalOrderPaymentInstructionDtoBuilder requestDto) {
+            public BARWhenDsl postalOrdersCreatePayment(PostalOrderPaymentInstruction.PostalOrderPaymentInstructionBuilder requestDto) {
                 response = newRequest().body(requestDto.build()).post("/postal-orders");
                 return this;
             }
 
-            public BARWhenDsl allPayCreatePayment(AllPayPaymentInstructionDto.AllPayPaymentInstructionDtoBuilder requestDto) {
+            public BARWhenDsl allPayCreatePayment(AllPayPaymentInstruction.AllPayPaymentInstructionBuilder requestDto) {
                 response = newRequest().body(requestDto.build()).post("/allpay");
                 return this;
             }
@@ -96,27 +98,27 @@ public class BARTestDsl {
                 return this;
             }
 
-            public BARThenDsl cashCreated(Consumer<CashPaymentInstructionDto> barAssertions) {
-                CashPaymentInstructionDto cashPaymentDto = response.then().statusCode(201).extract().as(CashPaymentInstructionDto.class);
-                barAssertions.accept(cashPaymentDto);
+            public BARThenDsl cashCreated(Consumer<CashPaymentInstruction> barAssertions) {
+                CashPaymentInstruction cashPaymentInstruction = response.then().statusCode(201).extract().as(CashPaymentInstruction.class);
+                barAssertions.accept(cashPaymentInstruction);
                 return this;
             }
 
-            public BARThenDsl chequeCreated(Consumer<ChequePaymentInstructionDto> barAssertions) {
-                ChequePaymentInstructionDto chequePaymentDto = response.then().statusCode(201).extract().as(ChequePaymentInstructionDto.class);
-                barAssertions.accept(chequePaymentDto);
+            public BARThenDsl chequeCreated(Consumer<ChequePaymentInstruction> barAssertions) {
+                ChequePaymentInstruction chequePaymentInstruction = response.then().statusCode(201).extract().as(ChequePaymentInstruction.class);
+                barAssertions.accept(chequePaymentInstruction);
                 return this;
             }
 
-            public BARThenDsl postalOrdersCreated(Consumer<PostalOrderPaymentInstructionDto> barAssertions) {
-                PostalOrderPaymentInstructionDto postalOrdersPaymentDto = response.then().statusCode(201).extract().as(PostalOrderPaymentInstructionDto.class);
-                barAssertions.accept(postalOrdersPaymentDto);
+            public BARThenDsl postalOrdersCreated(Consumer<PostalOrderPaymentInstruction> barAssertions) {
+                PostalOrderPaymentInstruction postalOrdersPaymentInstruction = response.then().statusCode(201).extract().as(PostalOrderPaymentInstruction.class);
+                barAssertions.accept(postalOrdersPaymentInstruction);
                 return this;
             }
 
-            public BARThenDsl allPayCreated(Consumer<AllPayPaymentInstructionDto> barAssertions) {
-                AllPayPaymentInstructionDto AllPayPaymentInstructionDto = response.then().statusCode(201).extract().as(AllPayPaymentInstructionDto.class);
-                barAssertions.accept(AllPayPaymentInstructionDto);
+            public BARThenDsl allPayCreated(Consumer<AllPayPaymentInstruction> barAssertions) {
+                AllPayPaymentInstruction allPayPaymentInstruction = response.then().statusCode(201).extract().as(AllPayPaymentInstruction.class);
+                barAssertions.accept(allPayPaymentInstruction);
                 return this;
             }
 
